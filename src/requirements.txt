@@ -1,0 +1,3 @@
+requests          # For making HTTP requests
+beautifulsoup4    # For parsing HTML and XML documents
+csv
