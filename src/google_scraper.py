@@ -1,7 +1,8 @@
+import os
 import requests
 import csv
 
-def search_google_places(api_key, keyword, output_file, max_results=1):
+def search_google_places(api_key, keyword, output_file):
     search_url = f'https://maps.googleapis.com/maps/api/place/textsearch/json?query={keyword}&key={api_key}'
     search_response = requests.get(search_url)
     
@@ -10,36 +11,31 @@ def search_google_places(api_key, keyword, output_file, max_results=1):
         places = search_data.get('results', [])
         
         if places:
-            # Get the place ID of the first result
-            place_id = places[0]['place_id']
-            
-            # Fetch place details including reviews using the place ID
-            details_url = f'https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&fields=name,rating,formatted_address,reviews&key={api_key}'
-            details_response = requests.get(details_url)
-            
-            if details_response.status_code == 200:
-                details_data = details_response.json()
-                place_details = details_data.get('result', {})
-                place_name = place_details.get('name', 'N/A')
-                place_rating = place_details.get('rating', 'N/A')
-                place_address = place_details.get('formatted_address', 'N/A')
-                reviews = place_details.get('reviews', [])
+            with open(output_file, 'a', newline='', encoding='utf-8') as csvfile:
+                fieldnames = ['Name', 'Rating', 'Address', 'Author', 'Review', 'Rating']
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                 
-                with open(output_file, 'w', newline='', encoding='utf-8') as csvfile:
-                    fieldnames = ['Name', 'Rating', 'Address', 'Author', 'Review', 'Rating']
-                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-                    writer.writeheader()
+                for place in places:
+                    place_id = place.get('place_id')
+                    place_name = place.get('name', 'N/A')
+                    place_rating = place.get('rating', 'N/A')
+                    place_address = place.get('formatted_address', 'N/A')
                     
-                    for review in reviews:
-                        author_name = review['author_name']
-                        review_text = review['text']
-                        review_rating = review['rating']
+                    details_url = f'https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&fields=name,rating,formatted_address,reviews&key={api_key}'
+                    details_response = requests.get(details_url)
+                    
+                    if details_response.status_code == 200:
+                        details_data = details_response.json()
+                        place_reviews = details_data.get('result', {}).get('reviews', [])
                         
-                        writer.writerow({'Name': place_name, 'Rating': place_rating, 'Address': place_address, 'Author': author_name, 'Review': review_text, 'Rating': review_rating})
+                        for review in place_reviews:
+                            author_name = review.get('author_name', 'N/A')
+                            review_text = review.get('text', 'N/A')
+                            review_rating = review.get('rating', 'N/A')
+                            
+                            writer.writerow({'Name': place_name, 'Rating': place_rating, 'Address': place_address, 'Author': author_name, 'Review': review_text, 'Rating': review_rating})
                         
                 print(f'Reviews written to {output_file}')
-            else:
-                print('Failed to fetch place details.')
         else:
             print('No places found matching the keyword.')
     else:
@@ -47,6 +43,11 @@ def search_google_places(api_key, keyword, output_file, max_results=1):
 
 if __name__ == "__main__":
     api_key = input("Enter your Google Places API key: ")
-    keyword = input("Enter the keyword to search for: ")
-    output_file = 'output.csv'  # File to write the reviews to
-    search_google_places(api_key, keyword, output_file)
+    keywords_file = os.path.join(os.path.dirname(__file__), 'keywords.txt')
+    output_file = 'output.csv'  # File to write the reviews
+    
+    with open(keywords_file, 'r') as file:
+        keywords = file.readlines()
+        
+    for keyword in keywords:
+        search_google_places(api_key, keyword.strip(), output_file)

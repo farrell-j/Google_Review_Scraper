@@ -1,6 +1,6 @@
 ### Google Review Scraper
 
-This script allows you to scrape Google reviews for a specified keyword search using the Google Places API.
+This script allows you to scrape Google reviews for a list of keywords using the Google Places API.
 
 #### Prerequisites
 
@@ -20,37 +20,49 @@ Before using this script, you need to have:
    pip install requests
    ```
 
-3. Run the script:
+3. Create a text file named "keywords.txt" in the same directory as the script.
+
+4. Add your list of keywords to the "keywords.txt" file, with each keyword on a separate line:
+
+   ```
+   keyword1
+   keyword2
+   keyword3
+   ```
+
+5. Run the script:
 
    ```bash
    python google_review_scraper.py
    ```
 
-4. Follow the prompts to enter your Google Places API key and the keyword you want to search for.
+6. Follow the prompts to enter your Google Places API key.
 
-5. The script will fetch the Google reviews for the specified keyword and write them to a CSV file named `output.csv`.
+7. The script will fetch the Google reviews for each keyword in the "keywords.txt" file and write them to a CSV file named "output.csv".
 
 #### Script Explanation
 
 The script performs the following steps:
 
-1. Sends a request to the Google Places API to search for places based on the provided keyword.
+1. Reads the list of keywords from the "keywords.txt" file.
 
-2. Retrieves the place ID of the first result from the search.
+2. For each keyword, it sends a request to the Google Places API to search for places.
 
-3. Fetches the details of the place, including its reviews, using the place ID.
+3. Retrieves the place ID of the first result from the search.
 
-4. Writes the reviews to a CSV file along with other details such as the place name, rating, and address.
+4. Fetches the details of the place, including its reviews, using the place ID.
+
+5. Writes the reviews to a CSV file along with other details such as the place name, rating, and address.
 
 #### Note
 
 - Ensure that you have the necessary permissions and API quotas set up in your Google Cloud Platform account to use the Google Places API.
-- This script may only fetch a limited number of reviews depending on the Google Places API restrictions and the availability of reviews for the specified keyword.
+- This script may only fetch a limited number of reviews depending on the Google Places API restrictions and the availability of reviews for the specified keywords.
 
 #### Author
 Joe Farrell
-farrell-j
+GitHub handle: farrell-j
 
 #### License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE). -->
