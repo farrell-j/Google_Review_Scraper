@@ -25,7 +25,6 @@ Before using this script, you need to have:
    ```bash
    pip install -r requirements.txt
 
-
 3. Create a text file named "keywords.txt" in the same directory as the script.
 
 4. Add your list of keywords to the "keywords.txt" file, with each keyword on a separate line:
