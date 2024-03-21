@@ -59,6 +59,8 @@ The script performs the following steps:
 
 5. Writes the reviews to a CSV file along with other details such as the place name, rating, and address.
 
+6. Makes a copy of CSV file in the parent directory data folder.
+
 #### Note
 
 - Ensure that you have the necessary permissions and API quotas set up in your Google Cloud Platform account to use the Google Places API.

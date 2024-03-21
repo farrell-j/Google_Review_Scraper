@@ -1,6 +1,7 @@
 import os
 import requests
 import csv
+import shutil
 
 def search_google_places(api_key, keyword, output_file):
     search_url = f'https://maps.googleapis.com/maps/api/place/textsearch/json?query={keyword}&key={api_key}'
@@ -51,3 +52,8 @@ if __name__ == "__main__":
         
     for keyword in keywords:
         search_google_places(api_key, keyword.strip(), output_file)
+
+# Create a copy of output.csv in the data folder
+    parent_data_folder = os.path.join(os.path.dirname(__file__), '..', 'data')
+    os.makedirs(parent_data_folder, exist_ok=True)
+    shutil.copy(output_file, os.path.join(parent_data_folder, output_file))
