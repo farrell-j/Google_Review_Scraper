@@ -60,7 +60,7 @@ The script performs the following steps:
 - This script may only fetch a limited number of reviews depending on the Google Places API restrictions and the availability of reviews for the specified keywords.
 
 #### Author
-Joe Farrell
+Joe Farrell <br />
 GitHub handle: farrell-j
 
 #### License
