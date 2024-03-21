@@ -20,9 +20,9 @@ Before using this script, you need to have:
    pip install requests
    ``` 
    <br />
-   Alternatively, you can add dependencies inside requirements.txt, list each dependency on a separate line. 
-   <br />
-   ```pip install -r requirements.txt
+   Alternatively, you can add dependencies inside requirements.txt, list each dependency on a separate line. <br />
+   ```bash
+   pip install -r requirements.txt
    ```
 
 3. Create a text file named "keywords.txt" in the same directory as the script.
