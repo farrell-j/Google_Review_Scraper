@@ -1,5 +1,7 @@
 ### Google Review Scraper
 
+![App Image](google.jpeg)
+
 This script allows you to scrape Google reviews for a list of keywords using the Google Places API.
 
 #### Prerequisites
